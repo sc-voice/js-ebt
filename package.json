@@ -25,7 +25,7 @@
   },
   "homepage": "https://github.com/sc-voice/js-ebt#readme",
   "devDependencies": {
-    "mocha": "^8.1.0",
+    "mocha": "^11.7.4",
     "should": "^13.2.3"
   }
 }
