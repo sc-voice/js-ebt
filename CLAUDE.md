@@ -14,7 +14,7 @@ Make js-ebt compatible with Node 24.x to support OIDC npm publishing in dependen
 
 ## Backlog
 
-1. Test js-ebt against Node 24.x locally
-2. Update devDependencies if needed
-3. Add Node version constraint to package.json if needed
-4. Run full test suite on Node 24.x
+1. ✓ Test js-ebt against Node 24.x locally (DONE - all 8 tests pass)
+2. ✓ Update devDependencies if needed (DONE - fixed npm audit vulnerabilities)
+3. ✓ Add Node version constraint to package.json (DONE - found not needed)
+4. ✓ Run full test suite on Node 24.x (DONE)
