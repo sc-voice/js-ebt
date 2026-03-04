@@ -1,29 +1,24 @@
+import { describe, it, expect } from '@sc-voice/vitest';
+import { PaliHyphenator } from '../index.js';
 
-(typeof describe === 'function') && describe("pali-hyphenator", function() {
-    const should = require("should");
-    const {
-        PaliHyphenator,
-    } = require("../index");
-
+describe("pali-hyphenator", function() {
     it("TESTTESTdefault ctor", ()=>{
         var ph = new PaliHyphenator();
-        should(ph).properties({
-            minWord: 5,
-            maxWord: 25,
-            hyphen: "\u00AD",
-        });
-        should(PaliHyphenator.VOWELS).equal("aāeiīouū");
-        should("xdhammaz".replace(ph.reAtomic,"y")).equal('xyz');
-        should("xdhammoz".replace(ph.reAtomic,"y")).equal('xyz');
-        should("xdhammpz".replace(ph.reAtomic,"y")).equal('xdhammpz');
-        should("xsakuz".replace(ph.reAtomic,"y")).equal('xyz');
+        expect(ph.minWord).toBe(5);
+        expect(ph.maxWord).toBe(25);
+        expect(ph.hyphen).toBe("\u00AD");
+        expect(PaliHyphenator.VOWELS).toBe("aāeiīouū");
+        expect("xdhammaz".replace(ph.reAtomic,"y")).toBe('xyz');
+        expect("xdhammoz".replace(ph.reAtomic,"y")).toBe('xyz');
+        expect("xdhammpz".replace(ph.reAtomic,"y")).toBe('xdhammpz');
+        expect("xsakuz".replace(ph.reAtomic,"y")).toBe('xyz');
 
         // common prefix
-        should("xsakulaz".replace(ph.reAtomic,"y")).equal('xyz');
-        should("xsakusakulaz".replace(ph.reAtomic,"y")).equal('xyyz');
-        should("xsakulasakulaz".replace(ph.reAtomic,"y")).equal('xyyz');
+        expect("xsakulaz".replace(ph.reAtomic,"y")).toBe('xyz');
+        expect("xsakusakulaz".replace(ph.reAtomic,"y")).toBe('xyyz');
+        expect("xsakulasakulaz".replace(ph.reAtomic,"y")).toBe('xyyz');
 
-        should.deepEqual(ph.atomic.slice(0, 10), [
+        expect(ph.atomic.slice(0, 10)).toEqual([
             "aṅguttara",
             "vibhaṅga",
             "caṇḍala",
@@ -39,8 +34,8 @@
         // Ending vowel should match any vowel
         var patAtomic = ph.reAtomic.toString();
         var iSank = patAtomic.indexOf('saṅk');
-        should(patAtomic.substring(iSank,iSank+25))
-            .equal('saṅk|sat(a|ā|e|i|ī|o|u|ū)');
+        expect(patAtomic.substring(iSank,iSank+25))
+            .toBe('saṅk|sat(a|ā|e|i|ī|o|u|ū)');
     });
     it("custom ctor", ()=>{
         var atomic = [];
@@ -53,8 +48,8 @@
             maxWord,
             hyphen,
         });
-        should(ph.atomic).equal(atomic);
-        should(ph).properties({
+        expect(ph.atomic).toBe(atomic);
+        expect(ph).properties({
             atomic,
             minWord,
             maxWord,
@@ -68,11 +63,11 @@
             maxWord:3,
             hyphen,
         });
-        should.deepEqual(ph.hyphenate("dhamma").split(hyphen), [
+        expect(ph.hyphenate("dhamma").split(hyphen)).toEqual([
             `dhamma`,
         ]);
 
-        should.deepEqual(ph.hyphenate("dhammadhamma").split(hyphen), [
+        expect(ph.hyphenate("dhammadhamma").split(hyphen)).toEqual([
             `dhamma`,
             `dhamma`,
         ]);
@@ -91,15 +86,15 @@
         });
         var hyphenated = ph.hyphenate(word).split(hyphen);
         var i = 0;
-        should(hyphenated[i++].length).below(maxWord+1);
-        should(hyphenated[i++].length).below(maxWord+1);
-        should(hyphenated[i++].length).below(maxWord+1);
-        should(hyphenated[i++].length).below(maxWord+1);
-        should(hyphenated[i++].length).below(maxWord+1);
-        should(hyphenated[i++].length).below(maxWord+1);
-        should(hyphenated[i++].length).below(maxWord+1);
-        should(hyphenated[i++].length).below(maxWord+1);
-        should.deepEqual(hyphenated, [
+        expect(hyphenated[i++].length).toBeLessThan(maxWord+1);
+        expect(hyphenated[i++].length).toBeLessThan(maxWord+1);
+        expect(hyphenated[i++].length).toBeLessThan(maxWord+1);
+        expect(hyphenated[i++].length).toBeLessThan(maxWord+1);
+        expect(hyphenated[i++].length).toBeLessThan(maxWord+1);
+        expect(hyphenated[i++].length).toBeLessThan(maxWord+1);
+        expect(hyphenated[i++].length).toBeLessThan(maxWord+1);
+        expect(hyphenated[i++].length).toBeLessThan(maxWord+1);
+        expect(hyphenated).toEqual([
             `abhivā`,
             `danapac`, // doubled consonant
             `cuṭṭhā`,
@@ -107,8 +102,8 @@
             `kamma`, // atomic
             `sāmīci`,
             `kamma`,
-            `cīvara`, 
-            `piṇḍa`, // atomic 
+            `cīvara`,
+            `piṇḍa`, // atomic
             `pātasenā`,
             `sanagilā`,
             `nappacca`,
@@ -125,7 +120,7 @@
         });
         var word = "kammakammakameleon";
         var hyphen = "\u00ad";
-        should.deepEqual(ph.hyphenate(word).split(hyphen), [
+        expect(ph.hyphenate(word).split(hyphen)).toEqual([
             "kamma",
             "kamma",
             "kameleon",
@@ -140,19 +135,19 @@
             verbose: "",
         });
 
-        // should not break 
-        should("ekaṁ".length).equal(4);
-        should.deepEqual(ph.hyphenate("ekaṁ").split(hyphen), [
+        // should not break
+        expect("ekaṁ".length).toBe(4);
+        expect(ph.hyphenate("ekaṁ").split(hyphen)).toEqual([
             "ekaṁ", ]);
 
-        // should break 
-        should.deepEqual(ph.hyphenate("ekamantaṁ").split(hyphen), [
+        // should break
+        expect(ph.hyphenate("ekamantaṁ").split(hyphen)).toEqual([
             "eka", "man", "taṁ", ]);
-        should.deepEqual(ph.hyphenate("ekamanso").split(hyphen), [
+        expect(ph.hyphenate("ekamanso").split(hyphen)).toEqual([
             "eka", "manso", ]);
-        should.deepEqual(ph.hyphenate("Ekamidāhaṁ").split(hyphen), [
+        expect(ph.hyphenate("Ekamidāhaṁ").split(hyphen)).toEqual([
             "Ekami", "dāhaṁ", ]);
-        should.deepEqual(ph.hyphenate("ekacce").split(hyphen), [
+        expect(ph.hyphenate("ekacce").split(hyphen)).toEqual([
             "ekac", "ce", ]);
     });
     it("TESTTESThyphenate(word) => handles pari", ()=>{
@@ -164,14 +159,14 @@
             verbose: "",
         });
 
-        // should not break 
-        should("pari".length).equal(4);
-        should.deepEqual(ph.hyphenate("pari").split(hyphen), [
+        // should not break
+        expect("pari".length).toBe(4);
+        expect(ph.hyphenate("pari").split(hyphen)).toEqual([
             "pari", ]);
 
-        // should break 
-        should.deepEqual(ph.hyphenate("parikkhārā").split(hyphen), [
-            "parik", "khārā", ]); 
+        // should break
+        expect(ph.hyphenate("parikkhārā").split(hyphen)).toEqual([
+            "parik", "khārā", ]);
     });
     it("TESTTESThyphenate(word) => handles long words", ()=>{
         var hyphen = "\u00ad";
@@ -180,10 +175,10 @@
             verbose: "",
         });
 
-        // should not break 
+        // should not break
         var word = "cīvarapiṇḍapātasenāsanagilānap"+
             "paccayabhesajjaparikkhārena";
-        should.deepEqual(ph.hyphenate(word).split(hyphen), [
+        expect(ph.hyphenate(word).split(hyphen)).toEqual([
             'cīvara',
             'piṇḍa',
             'pātasenā',

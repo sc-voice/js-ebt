@@ -4,10 +4,8 @@
   "description": "Javascript browser utilities for Early Buddhist Texts",
   "main": "index.js",
   "scripts": {
-    "test": "npm run test:verbose",
-    "test:test": "mocha -w -R min --inline-diffs -g TEST './@(src|test)/**/*.js'",
-    "test:verbose": "mocha --inline-diffs",
-    "test:watch": "mocha -w --inline-diffs"
+    "test": "vitest run",
+    "test:test": "vitest"
   },
   "directories": {
     "src": "src",
@@ -25,7 +23,6 @@
   },
   "homepage": "https://github.com/sc-voice/js-ebt#readme",
   "devDependencies": {
-    "mocha": "^11.7.4",
-    "should": "^13.2.3"
+    "@sc-voice/vitest": "^4.0.1"
   }
 }
